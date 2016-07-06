@@ -1,5 +1,5 @@
 require "java"
-Dir["vendor/tranquility/*.jar"].each { |file| require file }
+Dir["#{File.dirname(__FILE__)}/../vendor/tranquility/*.jar"].each { |file| require file }
 
 require "active_support/all"
 require "json"
