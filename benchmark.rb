@@ -1,6 +1,6 @@
 require 'benchmark'
 require 'influxdb'
-require 'jruby_druid'
+require 'jruby-druid'
 
 @max = 100000
 # 100000 points | druid: 154.772s | influx: 246.821s
