@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'druid/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "jruby_druid"
+  spec.name          = "jruby-druid"
   spec.version       = JrubyDruid::VERSION
   spec.authors       = ["Andre LeBlanc"]
   spec.email         = ["andre.leblanc88@gmail.com"]
