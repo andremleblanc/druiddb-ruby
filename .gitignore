@@ -11,3 +11,4 @@
 zookeeper.out
 jruby-druid.log
 .ruby-version
+*.gem
