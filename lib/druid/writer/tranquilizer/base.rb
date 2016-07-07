@@ -19,11 +19,7 @@ module Druid
         end
 
         def send(datapoint)
-          args = datapoint.timestamp.flatten +
-            datapoint.dimensions.flatten +
-            datapoint.metrics.flatten
-
-          service.send(ImmutableMap.of(*args)).addEventListener(EventListener.new)
+          service.send(argument_map(datapoint)).addEventListener(EventListener.new)
         end
 
         def start
@@ -38,6 +34,14 @@ module Druid
         end
 
         private
+
+        def argument_map(datapoint)
+          args = datapoint.timestamp.
+            merge(datapoint.dimensions).
+            merge(datapoint.metrics)
+
+          ImmutableMap.builder.putAll(args).build
+        end
 
         def create_service
           timestamper = Timestamper.new
