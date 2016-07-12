@@ -6,7 +6,7 @@ describe Druid::Configuration do
       it 'sets default values properly' do
         expect(subject.broker_uri).to eq Druid::Configuration::BROKER_URI
         expect(subject.coordinator_uri).to eq Druid::Configuration::COORDINATOR_URI
-        expect(subject.curator_host).to eq Druid::Configuration::CURATOR_HOST
+        expect(subject.curator_uri).to eq Druid::Configuration::CURATOR_URI
         expect(subject.discovery_path).to eq Druid::Configuration::DISCOVERY_PATH
         expect(subject.index_service).to eq Druid::Configuration::INDEX_SERVICE
         expect(subject.overlord_uri).to eq Druid::Configuration::OVERLORD_URI
@@ -31,9 +31,9 @@ describe Druid::Configuration do
         it { expect(subject.coordinator_uri).to eq uri }
       end
 
-      context 'curator_host' do
-        subject { Druid::Configuration.new(curator_host: uri)}
-        it { expect(subject.curator_host).to eq uri }
+      context 'curator_uri' do
+        subject { Druid::Configuration.new(curator_uri: uri)}
+        it { expect(subject.curator_uri).to eq uri }
       end
 
       context 'discovery_path' do

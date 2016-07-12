@@ -2,7 +2,7 @@ module Druid
   class Configuration
     BROKER_URI = 'http://localhost:8082/'.freeze
     COORDINATOR_URI = 'http://localhost:8081/'.freeze
-    CURATOR_HOST = 'localhost'.freeze
+    CURATOR_URI = 'localhost:2181'.freeze
     DISCOVERY_PATH = '/druid/discovery'.freeze
     INDEX_SERVICE = 'druid/overlord'.freeze
     OVERLORD_URI = 'http://localhost:8090/'.freeze
@@ -12,7 +12,7 @@ module Druid
 
     attr_reader :broker_uri,
                 :coordinator_uri,
-                :curator_host,
+                :curator_uri,
                 :discovery_path,
                 :index_service,
                 :overlord_uri,
@@ -24,7 +24,7 @@ module Druid
     def initialize(opts = {})
       @broker_uri = opts[:broker_uri] || BROKER_URI
       @coordinator_uri = opts[:coordinator_uri] || COORDINATOR_URI
-      @curator_host = opts[:curator_host] || CURATOR_HOST
+      @curator_uri = opts[:curator_uri] || CURATOR_URI
       @discovery_path = opts[:discovery_path] || DISCOVERY_PATH
       @index_service = opts[:index_service] || INDEX_SERVICE
       @overlord_uri = opts[:overlord_uri] || OVERLORD_URI
