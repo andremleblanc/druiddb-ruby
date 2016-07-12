@@ -36,6 +36,8 @@ RSpec.shared_examples 'for_query_datasource' do
       expect(subject).to receive(:shutdown_tasks).with(datasource_name)
       expect(subject).to receive(:datasource_enabled?).with(datasource_name).and_return(true)
       expect(subject).to receive(:disable_datasource).with(datasource_name)
+      expect(subject).to receive(:delete_zookeeper_nodes).with(datasource_name)
+      expect(subject.writer).to receive(:remove_tranquilizer_for_datasource).with(datasource_name)
       subject.delete_datasource(datasource_name)
     end
   end
