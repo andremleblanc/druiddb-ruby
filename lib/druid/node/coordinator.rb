@@ -25,10 +25,12 @@ module Druid
         true
       end
 
+      # TODO: This should either be private or moved to datasource
       def datasource_enabled?(datasource_name)
         list_datasources.include? datasource_name
       end
 
+      # TODO: This should either be private or moved to datasource
       def datasource_has_segments?(datasource_name)
         list_segments(datasource_name).any?
       end
@@ -39,6 +41,7 @@ module Druid
         true
       end
 
+      # TODO: This should either be private or moved to datasource
       def disable_segments(datasource_name)
         segments = list_segments(datasource_name)
         segments.each{ |segment| disable_segment(datasource_name, segment) }
