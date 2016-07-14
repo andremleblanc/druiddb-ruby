@@ -4,6 +4,9 @@ require 'support/shared_examples/for_query_datasource'
 require 'support/shared_examples/for_query_task'
 
 describe Druid::Client do
+  subject { Druid::Client.new(config) }
+  let(:config) { {} }
+
   include_examples 'for_query_core'
   include_examples 'for_query_datasource'
   include_examples 'for_query_task'

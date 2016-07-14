@@ -7,7 +7,7 @@ module Druid
             bounded_retry = org.apache.curator.retry.BoundedExponentialBackoffRetry.new(100, 30000, 29)
             CuratorFrameworkFactory.
               builder.
-              connectString(config.curator_host).
+              connectString(config.curator_uri).
               retryPolicy(bounded_retry).
               build
           end

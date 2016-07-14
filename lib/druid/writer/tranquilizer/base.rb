@@ -47,15 +47,16 @@ module Druid
           timestamper = Timestamper.new
           timestamp_spec = TimestampSpec.new("timestamp", "auto", nil)
 
-          DruidBeams.
+          builder = DruidBeams.
             timestamper_builder(timestamper).
             curator(curator).
             discoveryPath(config.discovery_path).
             location(com.metamx.tranquility.druid.DruidLocation.create(config.index_service, datasource)).
             timestampSpec(timestamp_spec).
             rollup(rollup).
-            tuning(tuning).
-            buildTranquilizer
+            tuning(tuning)
+          builder = builder.druidBeamConfig(DruidBeamConfig.build(true)) if config.strong_delete
+          builder.buildTranquilizer
         end
       end
     end
