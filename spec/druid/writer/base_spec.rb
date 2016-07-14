@@ -19,6 +19,26 @@ describe Druid::Writer::Base do
   let(:n) { 2 }
   let(:next_interval) { Time.now.utc.advance(hours: 1) }
 
+  describe '#remove_tranquilizer_for_datasource' do
+    let(:tranquilizer) { double('tranquilizer') }
+
+    context 'when there is a tranquilizer for the datasource' do
+      it 'calls remove_tranquilizer with the tranquilizer' do
+        expect(subject).to receive(:tranquilizer_for_datasource).with(datasource_a).and_return(tranquilizer)
+        expect(subject).to receive(:remove_tranquilizer).with(tranquilizer)
+        subject.remove_tranquilizer_for_datasource(datasource_a)
+      end
+    end
+
+    context 'when there is not a tranquilizer for the datasource' do
+      it 'does not call remove_tranquilizer' do
+        expect(subject).to receive(:tranquilizer_for_datasource).with(datasource_a)
+        expect(subject).not_to receive(:remove_tranquilizer)
+        subject.remove_tranquilizer_for_datasource(datasource_a)
+      end
+    end
+  end
+
   describe '#write_point' do
     context 'writing points to the same datasource' do
       context 'with no schema change' do

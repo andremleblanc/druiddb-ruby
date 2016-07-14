@@ -9,6 +9,11 @@ module Druid
         @tranquilizers = []
       end
 
+      def remove_tranquilizer_for_datasource(datasource)
+        tranquilizer = tranquilizer_for_datasource(datasource)
+        remove_tranquilizer(tranquilizer) if tranquilizer
+      end
+
       def write_point(datasource, datapoint)
         datapoint = Druid::Writer::Tranquilizer::Datapoint.new(datapoint)
         sender = get_tranquilizer(datasource, datapoint)
