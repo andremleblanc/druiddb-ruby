@@ -44,20 +44,19 @@ module Druid
         end
 
         def create_service
-          druid_beam_config = DruidBeamConfig.build(true) #TODO: Make config setting
           timestamper = Timestamper.new
           timestamp_spec = TimestampSpec.new("timestamp", "auto", nil)
 
-          DruidBeams.
+          builder = DruidBeams.
             timestamper_builder(timestamper).
             curator(curator).
             discoveryPath(config.discovery_path).
-            druidBeamConfig(druid_beam_config).
             location(com.metamx.tranquility.druid.DruidLocation.create(config.index_service, datasource)).
             timestampSpec(timestamp_spec).
             rollup(rollup).
-            tuning(tuning).
-            buildTranquilizer
+            tuning(tuning)
+          builder = builder.druidBeamConfig(DruidBeamConfig.build(true)) if config.strong_delete
+          builder.buildTranquilizer
         end
       end
     end

@@ -32,13 +32,28 @@ RSpec.shared_examples 'for_query_datasource' do
   describe '#delete_datasource' do
     let(:datasource_name) { 'foo' }
 
-    it 'shutsdown running tasks for datasource and deletes it' do
-      expect(subject).to receive(:shutdown_tasks).with(datasource_name)
-      expect(subject).to receive(:datasource_enabled?).with(datasource_name).and_return(true)
-      expect(subject).to receive(:disable_datasource).with(datasource_name)
-      expect(subject).to receive(:delete_zookeeper_nodes).with(datasource_name)
-      expect(subject.writer).to receive(:remove_tranquilizer_for_datasource).with(datasource_name)
-      subject.delete_datasource(datasource_name)
+    context 'when strong_delete is true' do
+      let(:config) { { strong_delete: true } }
+      
+      it 'shutsdown running tasks, deletes it, and removes zookeeper nodes' do
+        expect(subject).to receive(:shutdown_tasks).with(datasource_name)
+        expect(subject).to receive(:datasource_enabled?).with(datasource_name).and_return(true)
+        expect(subject).to receive(:disable_datasource).with(datasource_name)
+        expect(subject.writer).to receive(:remove_tranquilizer_for_datasource).with(datasource_name)
+        expect(subject).to receive(:delete_zookeeper_nodes).with(datasource_name)
+        subject.delete_datasource(datasource_name)
+      end
+    end
+
+    context 'when strong_delete is false' do
+      it 'shutsdown running tasks, deletes it, and does not remove zookeeper nodes' do
+        expect(subject).to receive(:shutdown_tasks).with(datasource_name)
+        expect(subject).to receive(:datasource_enabled?).with(datasource_name).and_return(true)
+        expect(subject).to receive(:disable_datasource).with(datasource_name)
+        expect(subject.writer).to receive(:remove_tranquilizer_for_datasource).with(datasource_name)
+        expect(subject).not_to receive(:delete_zookeeper_nodes)
+        subject.delete_datasource(datasource_name)
+      end
     end
   end
 

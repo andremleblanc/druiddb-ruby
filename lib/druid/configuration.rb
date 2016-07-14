@@ -7,6 +7,7 @@ module Druid
     INDEX_SERVICE = 'druid/overlord'.freeze
     OVERLORD_URI = 'http://localhost:8090/'.freeze
     ROLLUP_GRANULARITY = :minute
+    STRONG_DELETE = false
     TUNING_GRANULARITY = :day
     TUNING_WINDOW = 'PT1H'.freeze
 
@@ -17,6 +18,7 @@ module Druid
                 :index_service,
                 :overlord_uri,
                 :rollup_granularity,
+                :strong_delete,
                 :tuning_granularity,
                 :tuning_window
 
@@ -29,6 +31,7 @@ module Druid
       @index_service = opts[:index_service] || INDEX_SERVICE
       @overlord_uri = opts[:overlord_uri] || OVERLORD_URI
       @rollup_granularity = rollup_granularity_string(opts[:rollup_granularity])
+      @strong_delete = opts[:strong_delete] || STRONG_DELETE
       @tuning_granularity = tuning_granularity_string(opts[:tuning_granularity])
       @tuning_window = opts[:tuning_window] || TUNING_WINDOW
     end

@@ -14,8 +14,8 @@ module Druid
       def delete_datasource(datasource_name)
         shutdown_tasks(datasource_name)
         datasource_enabled?(datasource_name) ? disable_datasource(datasource_name) : true
-        delete_zookeeper_nodes(datasource_name)
         writer.remove_tranquilizer_for_datasource(datasource_name)
+        delete_zookeeper_nodes(datasource_name) if config.strong_delete
       end
 
       def delete_datasources
