@@ -10,14 +10,14 @@ def run_druid_benchmark
 	attempts = 0
 	config = { tuning_granularity: :hour, tuning_window: 'PT1M' }
 	client = Druid::Client.new(config)
-	datasource = 'foobar'
+	datasource = "foobar_#{Time.now.utc.min}"
 	dimensions = { manufacturer: 'ACME', owner: 'Wile E. Coyote' }
 	metrics = { anvils: 1 }
 	datapoint = { dimensions: dimensions, metrics: metrics }
 
 	until attempts >= @max
 		attempts += 1
-		puts "druid attempt #{attempts}" if attempts % 100 == 0
+		puts "druid attempt #{attempts}" if attempts % 1000 == 0
 		client.write_point(datasource, datapoint)
 	end
 end
@@ -33,7 +33,7 @@ def run_influx_benchmark
 
 	until attempts >= @max
 		attempts += 1
-		puts "influx attempt #{attempts}" if attempts % 100 == 0
+		puts "influx attempt #{attempts}" if attempts % 1000 == 0
 		client.write_point(name, data)
 	end
 end
