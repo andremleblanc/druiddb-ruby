@@ -7,7 +7,7 @@ module Druid
     INDEX_SERVICE = 'druid/overlord'.freeze
     OVERLORD_URI = 'http://localhost:8090/'.freeze
     ROLLUP_GRANULARITY = :minute
-    STRONG_DELETE = false
+    STRONG_DELETE = false # Not recommend to be true for production.
     TUNING_GRANULARITY = :day
     TUNING_WINDOW = 'PT1H'.freeze
 
