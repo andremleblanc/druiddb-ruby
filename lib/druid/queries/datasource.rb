@@ -1,5 +1,5 @@
 module Druid
-  module Query
+  module Queries
     module Datasource
       java_import org.apache.zookeeper.ZKUtil
 

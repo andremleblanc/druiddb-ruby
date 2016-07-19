@@ -1,5 +1,5 @@
 module Druid
-  module Query
+  module Queries
     module Task
       delegate :shutdown_tasks, to: :overlord
     end

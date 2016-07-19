@@ -27,7 +27,7 @@ client = Druid::Client.new
 # With custom tuning_granularity:
 client = Druid::Client.new(tuning_granularity: :hour)
 ```
-*Note:* There are many configuration options, please take a look at 
+*Note:* There are many configuration options, please take a look at
 `Druid::Configuration` for more details.
 
 ### Administrative Tasks
@@ -98,13 +98,37 @@ start_time = Time.now.utc.advance(days: -30)
 client.query(
   queryType: 'timeseries',
   dataSource: 'foo',
-  granularity: 'minute',
-  intervals: [start_time.iso8601 + '/' + Time.now.utc.iso8601],
+  granularity: 'day',
+  intervals: start_time.iso8601 + '/' + Time.now.utc.iso8601,
   aggregations: [{ type: 'longSum', name: 'baz', fieldName: 'baz' }]
 )
 ```
 *Note:* The `query` method just POSTs the query to Druid; for information on
-querying Druid: http://druid.io/docs/latest/querying/querying.html
+querying Druid: http://druid.io/docs/latest/querying/querying.html. This is
+intentionally simple to allow all current features and hopefully all future
+features of the Druid query language without updating the gem.
+
+Fill Empty Intervals:
+
+Currently, Druid will not fill empty intervals for which there are no points. To
+accommodate this need until it is handled more efficiently in Druid, use the
+experimental `fill_value` feature in your query. This ensure you get an result
+for every interval in intervals.
+
+This has only been tested with 'timeseries' and single-dimension 'groupBy'
+queries with simple granularities.
+```
+start_time = Time.now.utc.advance(days: -30)
+
+client.query(
+  queryType: 'timeseries',
+  dataSource: 'foo',
+  granularity: 'day',
+  intervals: start_time.iso8601 + '/' + Time.now.utc.iso8601,
+  aggregations: [{ type: 'longSum', name: 'baz', fieldName: 'baz' }],
+  fill_value: 0
+)
+```
 
 ## Testing
 
