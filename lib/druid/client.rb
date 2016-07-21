@@ -1,8 +1,8 @@
 module Druid
   class Client
-    include Druid::Query::Core
-    include Druid::Query::Datasource
-    include Druid::Query::Task
+    include Druid::Queries::Core
+    include Druid::Queries::Datasource
+    include Druid::Queries::Task
 
     attr_reader :broker,
                 :config,

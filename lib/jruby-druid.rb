@@ -7,15 +7,16 @@ require "json"
 require "druid/configuration"
 require "druid/connection"
 require "druid/errors"
+require "druid/query"
 require "druid/version"
 
 require "druid/node/broker"
 require "druid/node/coordinator"
 require "druid/node/overlord"
 
-require "druid/query/core"
-require "druid/query/datasource"
-require "druid/query/task"
+require "druid/queries/core"
+require "druid/queries/datasource"
+require "druid/queries/task"
 
 require "druid/writer/base"
 
