@@ -20,7 +20,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib", "vendor"]
 
   spec.add_dependency "activesupport", "~> 4.0"
-  spec.add_dependency "zk", "~> 1.9"
 
   spec.add_development_dependency "bundler", "~> 1.11"
   spec.add_development_dependency "faker", "~> 1.6"
