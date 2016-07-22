@@ -3,6 +3,7 @@ module Druid
   class ClientError < Error; end
   class ConnectionError < Error; end
   class QueryError < Error; end
+  class ValidationError < Error; end
 
   # Adopted from: https://github.com/lostisland/faraday/blob/master/lib/faraday/adapter/net_http.rb
   NET_HTTP_EXCEPTIONS = [
