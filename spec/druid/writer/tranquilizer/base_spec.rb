@@ -22,7 +22,8 @@ describe Druid::Writer::Tranquilizer::Base do
   end
 
   describe '#send' do
-    it 'returns a future' do
+    xit 'needs ZK; returns a future' do
+      pending('Needs ZK to run')
       expect(subject.send(datapoint)).to be_a Java::ComTwitterUtil::Promise::Chained
     end
   end

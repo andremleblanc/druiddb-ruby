@@ -19,6 +19,7 @@ module Druid
         end
 
         def send(datapoint)
+          #TODO: Timeout if ZK unresponsive
           service.send(argument_map(datapoint)).addEventListener(EventListener.new)
         end
 

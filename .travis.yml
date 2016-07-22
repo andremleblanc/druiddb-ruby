@@ -1,4 +1,10 @@
 language: ruby
 rvm:
-  - 2.2.3
-before_install: gem install bundler -v 1.11.2
+  - jruby-1.7.19
+  - jruby-9.1.2.0
+jdk:
+  - openjdk7
+  - oraclejdk7
+  - oraclejdk8
+script:
+  - bundle exec rspec spec/druid/
