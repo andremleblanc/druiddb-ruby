@@ -9,6 +9,7 @@ describe Druid::Configuration do
         expect(subject.curator_uri).to eq Druid::Configuration::CURATOR_URI
         expect(subject.discovery_path).to eq Druid::Configuration::DISCOVERY_PATH
         expect(subject.index_service).to eq Druid::Configuration::INDEX_SERVICE
+        expect(subject.log_level).to eq Druid::Configuration::LOG_LEVEL
         expect(subject.overlord_uri).to eq Druid::Configuration::OVERLORD_URI
         expect(subject.rollup_granularity).to eq Druid::Configuration::ROLLUP_GRANULARITY.to_s.upcase
         expect(subject.strong_delete).to eq Druid::Configuration::STRONG_DELETE
@@ -19,8 +20,9 @@ describe Druid::Configuration do
     end
 
     context 'with params' do
+      let(:object) { Faker::App.name }
       let(:time_duration) { Faker::Number.number(2) }
-      let(:time_window) { Faker::Lorem.characters(4) }
+      let(:char_string) { Faker::Lorem.characters(4) }
       let(:path) { '/druid/path' }
       let(:uri) { Faker::Internet.url }
 
@@ -49,6 +51,11 @@ describe Druid::Configuration do
         it { expect(subject.index_service).to eq path }
       end
 
+      context 'log_level' do
+        subject { Druid::Configuration.new(log_level: char_string)}
+        it { expect(subject.log_level).to eq char_string }
+      end
+
       context 'overlord_uri' do
         subject { Druid::Configuration.new(overlord_uri: uri)}
         it { expect(subject.overlord_uri).to eq uri }
@@ -70,8 +77,8 @@ describe Druid::Configuration do
       end
 
       context 'tuning_window' do
-        subject { Druid::Configuration.new(tuning_window: time_window)}
-        it { expect(subject.tuning_window).to eq time_window }
+        subject { Druid::Configuration.new(tuning_window: char_string)}
+        it { expect(subject.tuning_window).to eq char_string }
       end
 
       context 'wait_time' do

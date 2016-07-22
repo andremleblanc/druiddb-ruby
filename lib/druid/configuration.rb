@@ -5,6 +5,7 @@ module Druid
     CURATOR_URI = 'localhost:2181'.freeze
     DISCOVERY_PATH = '/druid/discovery'.freeze
     INDEX_SERVICE = 'druid/overlord'.freeze
+    LOG_LEVEL = :warn
     OVERLORD_URI = 'http://localhost:8090/'.freeze
     ROLLUP_GRANULARITY = :minute
     STRONG_DELETE = false # Not recommend to be true for production.
@@ -17,6 +18,7 @@ module Druid
                 :curator_uri,
                 :discovery_path,
                 :index_service,
+                :log_level,
                 :overlord_uri,
                 :rollup_granularity,
                 :strong_delete,
@@ -31,6 +33,7 @@ module Druid
       @curator_uri = opts[:curator_uri] || CURATOR_URI
       @discovery_path = opts[:discovery_path] || DISCOVERY_PATH
       @index_service = opts[:index_service] || INDEX_SERVICE
+      @log_level = opts[:log_level] || LOG_LEVEL
       @overlord_uri = opts[:overlord_uri] || OVERLORD_URI
       @rollup_granularity = rollup_granularity_string(opts[:rollup_granularity])
       @strong_delete = opts[:strong_delete] || STRONG_DELETE
