@@ -1,4 +1,5 @@
 # jruby-druid
+[![Build Status](https://travis-ci.org/andremleblanc/jruby-druid.svg?branch=master)](https://travis-ci.org/andremleblanc/jruby-druid)
 
 ## Foreword
 This documentation is intended to be a quick-start guide, not a comprehensive
