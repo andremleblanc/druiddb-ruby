@@ -10,6 +10,7 @@ module Druid
     STRONG_DELETE = false # Not recommend to be true for production.
     TUNING_GRANULARITY = :day
     TUNING_WINDOW = 'PT1H'.freeze
+    WAIT_TIME = 20 # Seconds
 
     attr_reader :broker_uri,
                 :coordinator_uri,
@@ -20,7 +21,8 @@ module Druid
                 :rollup_granularity,
                 :strong_delete,
                 :tuning_granularity,
-                :tuning_window
+                :tuning_window,
+                :wait_time
 
 
     def initialize(opts = {})
@@ -34,6 +36,7 @@ module Druid
       @strong_delete = opts[:strong_delete] || STRONG_DELETE
       @tuning_granularity = tuning_granularity_string(opts[:tuning_granularity])
       @tuning_window = opts[:tuning_window] || TUNING_WINDOW
+      @wait_time = opts[:wait_time] || WAIT_TIME
     end
 
     private

@@ -14,10 +14,12 @@ describe Druid::Configuration do
         expect(subject.strong_delete).to eq Druid::Configuration::STRONG_DELETE
         expect(subject.tuning_granularity).to eq Druid::Configuration::TUNING_GRANULARITY.to_s.upcase
         expect(subject.tuning_window).to eq Druid::Configuration::TUNING_WINDOW
+        expect(subject.wait_time).to eq Druid::Configuration::WAIT_TIME
       end
     end
 
     context 'with params' do
+      let(:time_duration) { Faker::Number.number(2) }
       let(:time_window) { Faker::Lorem.characters(4) }
       let(:path) { '/druid/path' }
       let(:uri) { Faker::Internet.url }
@@ -70,6 +72,11 @@ describe Druid::Configuration do
       context 'tuning_window' do
         subject { Druid::Configuration.new(tuning_window: time_window)}
         it { expect(subject.tuning_window).to eq time_window }
+      end
+
+      context 'wait_time' do
+        subject { Druid::Configuration.new(wait_time: time_duration)}
+        it { expect(subject.wait_time).to eq time_duration }
       end
     end
   end

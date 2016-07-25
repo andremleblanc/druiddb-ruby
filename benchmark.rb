@@ -5,6 +5,8 @@ require 'jruby-druid'
 @max = 100000
 # 100000 points | druid: 154.772s | influx: 246.821s
 # 100000 points | druid: 208.095s | influx: 244.993s - Schema Change Detection
+# 100000 points | druid: 391.063s | influx: 230.737 - 1.0.0-rc1
+# 100000 points | druid: 529.668s | influx: 500.526s - 1.0.0 - Handle ZK Connection
 
 def run_druid_benchmark
 	attempts = 0

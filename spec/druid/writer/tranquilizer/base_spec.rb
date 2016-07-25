@@ -21,10 +21,10 @@ describe Druid::Writer::Tranquilizer::Base do
     end
   end
 
-  describe '#send' do
+  describe '#safe_send' do
     xit 'needs ZK; returns a future' do
       pending('Needs ZK to run')
-      expect(subject.send(datapoint)).to be_a Java::ComTwitterUtil::Promise::Chained
+      expect(subject.safe_send(datapoint)).to be_a Java::ComTwitterUtil::Promise::Chained
     end
   end
 

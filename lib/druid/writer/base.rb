@@ -17,7 +17,7 @@ module Druid
       def write_point(datasource, datapoint)
         datapoint = Druid::Writer::Tranquilizer::Datapoint.new(datapoint)
         sender = get_tranquilizer(datasource, datapoint)
-        sender.send(datapoint)
+        sender.safe_send(datapoint)
       end
 
       private

@@ -7,6 +7,6 @@ module Helpers
   end
 
   def wait_for_point_to_be_queryable
-    sleep 4
+    sleep 6
   end
 end

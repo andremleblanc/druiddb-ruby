@@ -9,7 +9,8 @@ describe Druid::Client do
   let(:config) {
     {
       rollup_granularity: :second,
-      tuning_granularity: :minute,
+      strong_delete: true,
+      tuning_granularity: :hour,
       tuning_window: 'PT10S'
     }
   }
