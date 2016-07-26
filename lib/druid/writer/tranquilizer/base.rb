@@ -5,7 +5,12 @@ module Druid
   module Writer
     module Tranquilizer
       class Base
-        attr_reader :config, :curator, :datasource, :rollup, :service, :tuning
+        attr_reader :config,
+                    :curator,
+                    :datasource,
+                    :rollup,
+                    :service,
+                    :tuning
 
         def initialize(params)
           @config = params[:config]
@@ -18,9 +23,11 @@ module Druid
           start
         end
 
-        def send(datapoint)
-          #TODO: Timeout if ZK unresponsive
-          service.send(argument_map(datapoint)).addEventListener(EventListener.new)
+        def safe_send(datapoint)
+          thread = Thread.new{ send(datapoint) }
+          result = thread.join(@config.wait_time)
+          raise Druid::ConnectionError, 'Error connecting to ZooKeeper' unless result
+          result.value
         end
 
         def start
@@ -58,6 +65,10 @@ module Druid
             tuning(tuning)
           builder = builder.druidBeamConfig(DruidBeamConfig.build(true)) if config.strong_delete
           builder.buildTranquilizer
+        end
+
+        def send(datapoint)
+          service.send(argument_map(datapoint)).addEventListener(EventListener.new)
         end
       end
     end
