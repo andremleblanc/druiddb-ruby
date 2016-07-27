@@ -2,14 +2,15 @@ module Druid
   module Writer
     module Tranquilizer
       class EventListener
+        include Logging
         include_package com.twitter.util.FutureEventListener
 
         def onSuccess(data)
-          # puts "success: #{data.to_s}" #TODO: Log this (trace)
+          # logger.debug data.to_s
         end
 
         def onFailure(error)
-          puts "failure: #{error.to_s}" #TODO: Log this (debug)
+          logger.warn error.to_s
         end
       end
     end

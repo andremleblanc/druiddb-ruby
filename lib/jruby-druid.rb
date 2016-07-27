@@ -4,9 +4,12 @@ Dir["#{File.dirname(__FILE__)}/../vendor/tranquility/*.jar"].each { |file| requi
 require "active_support/all"
 require "json"
 
+require "druid/top_level_packages"
 require "druid/configuration"
 require "druid/connection"
 require "druid/errors"
+require "druid/logger"
+require "druid/logging"
 require "druid/query"
 require "druid/version"
 

@@ -1,1 +1,7 @@
-#TODO: Setup Logging and Do Something Useful
+module Druid
+  module Logging
+    def logger
+      @@logger ||= Druid::Logger.new
+    end
+  end
+end
