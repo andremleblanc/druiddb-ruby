@@ -27,7 +27,7 @@ module Druid
           thread = Thread.new{ send(datapoint) }
           result = thread.join(@config.wait_time)
           raise Druid::ConnectionError, 'Error connecting to ZooKeeper' unless result
-          result.value
+          Druid::Writer::Tranquilizer::Future.new(result.value)
         end
 
         def start
