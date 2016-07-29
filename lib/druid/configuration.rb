@@ -5,7 +5,7 @@ module Druid
     CURATOR_URI = 'localhost:2181'.freeze
     DISCOVERY_PATH = '/druid/discovery'.freeze
     INDEX_SERVICE = 'druid/overlord'.freeze
-    LOG_LEVEL = :warn
+    LOG_LEVEL = :error
     OVERLORD_URI = 'http://localhost:8090/'.freeze
     ROLLUP_GRANULARITY = :minute
     STRONG_DELETE = false # Not recommend to be true for production.

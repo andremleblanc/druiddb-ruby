@@ -21,9 +21,8 @@ module Druid
     private
 
     def set_logback_level(level)
-      org.slf4j.LoggerFactory.
-        getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).
-        setLevel(get_logback_level(level))
+      logger = org.slf4j.impl.StaticLoggerBinder.getSingleton.getLoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME)
+      logger.setLevel(get_logback_level(level))
     end
 
     def set_logger_level(level)
