@@ -7,4 +7,5 @@ require 'support/helpers'
 
 RSpec.configure do |c|
   c.include Helpers
+  c.include Druid::TopLevelPackages
 end
