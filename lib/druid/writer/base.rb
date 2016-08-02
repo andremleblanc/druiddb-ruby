@@ -1,6 +1,8 @@
 module Druid
   module Writer
     class Base
+      include TopLevelPackages
+
       attr_accessor :tranquilizers
       attr_reader :config
 
@@ -42,8 +44,10 @@ module Druid
         return false unless tranquilizer
         dimensions = tranquilizer.rollup.dimensions.specMap["dimensions"].to_a
         aggregators = tranquilizer.rollup.aggregators
-        metrics = Java::ScalaCollection::JavaConverters.seqAsJavaListConverter(aggregators).asJava.to_a.map{ |metric| metric.getFieldName }
-        dimensions == datapoint.dimensions.keys && metrics == datapoint.metrics.keys
+        metrics = Java::ScalaCollection::JavaConverters.seqAsJavaListConverter(aggregators).asJava.to_a.map do |metric|
+          metric.getFieldName unless metric.is_a? io.druid.query.aggregation.CountAggregatorFactory
+        end
+        dimensions == datapoint.dimensions.keys && metrics == datapoint.metrics.except(:count).keys
       end
 
       def remove_tranquilizer(tranquilizer)
