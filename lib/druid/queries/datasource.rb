@@ -1,7 +1,7 @@
 module Druid
   module Queries
     module Datasource
-      java_import org.apache.zookeeper.ZKUtil
+      include_package 'org.apache.zookeeper'
 
       ZOOKEEPER_BEAMS_PATH = '/tranquility/beams/druid:overlord'.freeze
 
