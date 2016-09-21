@@ -11,7 +11,7 @@ from the `Node` classes. Additionally, the `Query` module classes provide some
 additional methods not found natively in the Druid REST API.
 
 ## Writer
-The `Writer` classes utilize the Tranquility Core API to communicate with Druid
+The `Writer` classes utilize the Tranquility Kafka API to communicate with Druid
 nodes and allows writing.
 
 ## Errors
