@@ -24,11 +24,9 @@ module Druid
       private
 
       def delete_zookeeper_nodes(datasource_name)
-        # TODO: Fix this
-        # curator = Druid::Writer::Tranquilizer::Curator.build(config)
-        # curator.start
-        # zk = curator.getZookeeperClient.getZooKeeper
-        # ZKUtil.deleteRecursive(zk, ZOOKEEPER_BEAMS_PATH + "/#{datasource_name}")
+        zk.open(config.curator_uri) do
+          zk.rm_rf("#{ZOOKEEPER_BEAMS_PATH}/#{datasource_name}")
+        end
       end
     end
   end

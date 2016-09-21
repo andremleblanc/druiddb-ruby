@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport"
   spec.add_dependency "jruby-kafka"
+  spec.add_dependency "zk"
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "faker", "~> 1.6"

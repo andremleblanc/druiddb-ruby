@@ -1,6 +1,7 @@
 require "active_support/all"
 require "jruby-kafka"
 require "json"
+require "zk"
 
 require "druid/configuration"
 require "druid/connection"
