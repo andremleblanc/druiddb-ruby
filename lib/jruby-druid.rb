@@ -1,4 +1,5 @@
 require "active_support/all"
+require "jruby-kafka"
 require "json"
 
 require "druid/configuration"
@@ -15,5 +16,5 @@ require "druid/queries/core"
 require "druid/queries/datasource"
 require "druid/queries/task"
 
-require "druid/writer/base"
+require "druid/writer"
 require "druid/client"

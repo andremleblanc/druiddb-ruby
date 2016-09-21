@@ -15,7 +15,7 @@ module Druid
       @broker = Druid::Node::Broker.new(config)
       @coordinator = Druid::Node::Coordinator.new(config)
       @overlord = Druid::Node::Overlord.new(config)
-      @writer = Druid::Writer::Base.new(config)
+      @writer = Druid::Writer.new(config)
     end
   end
 end

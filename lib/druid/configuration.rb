@@ -5,6 +5,7 @@ module Druid
     CURATOR_URI = 'localhost:2181'.freeze
     DISCOVERY_PATH = '/druid/discovery'.freeze
     INDEX_SERVICE = 'druid/overlord'.freeze
+    KAFKA_LIST = 'localhost:9092'
     LOG_LEVEL = :error
     OVERLORD_URI = 'http://localhost:8090/'.freeze
     ROLLUP_GRANULARITY = :minute
@@ -18,6 +19,7 @@ module Druid
                 :curator_uri,
                 :discovery_path,
                 :index_service,
+                :kafka_list,
                 :log_level,
                 :overlord_uri,
                 :rollup_granularity,
@@ -33,6 +35,7 @@ module Druid
       @curator_uri = opts[:curator_uri] || CURATOR_URI
       @discovery_path = opts[:discovery_path] || DISCOVERY_PATH
       @index_service = opts[:index_service] || INDEX_SERVICE
+      @kafka_list = opts[:kafka_list] || KAFKA_LIST
       @log_level = opts[:log_level] || LOG_LEVEL
       @overlord_uri = opts[:overlord_uri] || OVERLORD_URI
       @rollup_granularity = rollup_granularity_string(opts[:rollup_granularity])
