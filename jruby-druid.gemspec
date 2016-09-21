@@ -20,8 +20,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport"
-  spec.add_dependency "jruby-kafka"
-  spec.add_dependency "zk"
+  spec.add_dependency "jruby-kafka", "~> 4.2"
+  spec.add_dependency "zk", "~> 1.9"
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "faker", "~> 1.6"
