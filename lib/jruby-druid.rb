@@ -8,6 +8,7 @@ require "druid/connection"
 require "druid/errors"
 require "druid/query"
 require "druid/version"
+require "druid/zk"
 
 require "druid/node/broker"
 require "druid/node/coordinator"

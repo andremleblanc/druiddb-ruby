@@ -8,14 +8,16 @@ module Druid
                 :config,
                 :coordinator,
                 :overlord,
-                :writer
+                :writer,
+                :zk
 
     def initialize(options = {})
       @config = Druid::Configuration.new(options)
-      @broker = Druid::Node::Broker.new(config)
-      @coordinator = Druid::Node::Coordinator.new(config)
-      @overlord = Druid::Node::Overlord.new(config)
-      @writer = Druid::Writer.new(config)
+      @zk = Druid::ZK.new(config)
+      @broker = Druid::Node::Broker.new(config, zk)
+      @coordinator = Druid::Node::Coordinator.new(config, zk)
+      @overlord = Druid::Node::Overlord.new(config, zk)
+      @writer = Druid::Writer.new(config, zk)
     end
   end
 end

@@ -23,6 +23,7 @@ module Druid
 
       private
 
+      # TODO: Use client zk
       def delete_zookeeper_nodes(datasource_name)
         zk.open(config.curator_uri) do
           zk.rm_rf("#{ZOOKEEPER_BEAMS_PATH}/#{datasource_name}")

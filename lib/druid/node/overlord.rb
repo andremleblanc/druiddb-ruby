@@ -5,9 +5,18 @@ module Druid
       RUNNING_TASKS_PATH = (INDEXER_PATH + 'runningTasks').freeze
       TASK_PATH = INDEXER_PATH + 'task/'
 
-      attr_reader :connection
-      def initialize(config)
-        @connection = Druid::Connection.new(config.overlord_uri)
+      attr_reader :config, :zk
+      def initialize(config, zk)
+        @config = config
+        @zk = zk
+      end
+
+      #TODO: DRY: copy/paste
+      def connection
+        overlord = zk.registry["#{config.discovery_path}/druid:overlord"].first
+        raise Druid::ConnectionError, 'no druid overlords available' if overlord.nil?
+        zk.registry["#{config.discovery_path}/druid:overlord"].rotate! # round-robin load balancing
+        Druid::Connection.new(host: overlord[:host], port: overlord[:port])
       end
 
       def running_tasks(datasource_name = nil)
