@@ -14,7 +14,6 @@ module Druid
       def delete_datasource(datasource_name)
         shutdown_tasks(datasource_name)
         datasource_enabled?(datasource_name) ? disable_datasource(datasource_name) : true
-        writer.remove_tranquilizer_for_datasource(datasource_name)
         delete_zookeeper_nodes(datasource_name) if config.strong_delete
       end
 
@@ -25,10 +24,9 @@ module Druid
       private
 
       def delete_zookeeper_nodes(datasource_name)
-        curator = Druid::Writer::Tranquilizer::Curator.build(config)
-        curator.start
-        zk = curator.getZookeeperClient.getZooKeeper
-        ZKUtil.deleteRecursive(zk, ZOOKEEPER_BEAMS_PATH + "/#{datasource_name}")
+        zk.open(config.curator_uri) do
+          zk.rm_rf("#{ZOOKEEPER_BEAMS_PATH}/#{datasource_name}")
+        end
       end
     end
   end

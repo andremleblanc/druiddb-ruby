@@ -1,3 +1,3 @@
 module JrubyDruid
-  VERSION = '1.0.0-rc4'
+  VERSION = '2.0.0-edge'
 end
