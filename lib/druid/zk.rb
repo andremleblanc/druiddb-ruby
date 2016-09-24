@@ -1,17 +1,27 @@
 module Druid
   class ZK
     attr_accessor :registry
-    attr_reader :client, :config
+    attr_reader :client, :config, :listeners
 
     #TODO: Test and handle ZK partitions
     def initialize(config)
       @client = ::ZK.new(config.zookeeper)
       @config = config
+      @listeners = []
       @registry = {}
       register
     end
 
+    def register_listener(object, method)
+      listeners << ->(*args) { object.send(method, *args) }
+    end
+
     private
+
+    def announce(service)
+      # puts "announcing #{service}"
+      listeners.each { |listener| listener.call(service) }
+    end
 
     def register
       register_service("#{config.discovery_path}/druid:broker")
@@ -45,7 +55,8 @@ module Druid
     def subscribe_to_service(service)
       subscription = client.register(service) do |event|
         # puts "watched event for #{service} detected"
-        renew_service_instances(event.path.split('/').last)
+        renew_service_instances(event.path)
+        announce(event.path)
       end
     end
   end
