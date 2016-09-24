@@ -1,6 +1,8 @@
 # jruby-druid
 [![Build Status](https://travis-ci.org/andremleblanc/jruby-druid.svg?branch=master)](https://travis-ci.org/andremleblanc/jruby-druid)
 
+#### Note: The HEAD of the master branch is not guaranteed to be in a stable state and should not be used in a production system. For a stable version, please use a non-prerelease release of the branch.
+
 ## Foreword
 This documentation is intended to be a quick-start guide, not a comprehensive
 list of all available methods and configuration options. Please look through
