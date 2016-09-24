@@ -3,9 +3,18 @@ module Druid
     class Coordinator
       DATASOURCES_PATH = '/druid/coordinator/v1/datasources/'.freeze
 
-      attr_reader :connection
-      def initialize(config)
-        @connection = Druid::Connection.new(config.coordinator_uri)
+      attr_reader :config, :zk
+      def initialize(config, zk)
+        @config = config
+        @zk = zk
+      end
+
+      # TODO: DRY; copy/paste from broker
+      def connection
+        coordinator = zk.registry["#{config.discovery_path}/druid:coordinator"].first
+        raise Druid::ConnectionError, 'no druid coordinators available' if coordinator.nil?
+        zk.registry["#{config.discovery_path}/druid:coordinator"].rotate! # round-robin load balancing
+        Druid::Connection.new(host: coordinator[:host], port: coordinator[:port])
       end
 
       def datasource_info(datasource_name)

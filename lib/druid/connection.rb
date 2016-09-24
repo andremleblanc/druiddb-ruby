@@ -14,8 +14,14 @@ module Druid
     attr_reader :http
 
     def initialize(endpoint)
-      uri = URI.parse(endpoint)
-      @http = ::Net::HTTP.new(uri.host, uri.port)
+      if endpoint.is_a? String
+        uri = URI.parse(endpoint)
+        host, port = uri.host, uri.port
+      else
+        host, port = endpoint.values_at(:host, :port)
+      end
+
+      @http = ::Net::HTTP.new(host, port)
     end
 
     def get(path, params = {})
