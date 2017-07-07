@@ -4,14 +4,14 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'druid/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "ruby-druid"
+  spec.name          = "druiddb"
   spec.version       = RubyDruid::VERSION
   spec.authors       = ["Andre LeBlanc"]
   spec.email         = ["andre.leblanc88@gmail.com"]
 
   spec.summary       = 'Ruby adapter for Druid.'
   spec.description   = 'Ruby adapter for Druid that allows reads and writes using the Tranquility Kafka API.'
-  spec.homepage      = "https://github.com/andremleblanc/ruby-druid"
+  spec.homepage      = "https://github.com/andremleblanc/druiddb"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
