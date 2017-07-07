@@ -2,6 +2,6 @@
 
 require "bundler/setup"
 require "irb"
-require "jruby-druid"
+require "ruby-druid"
 
 IRB.start

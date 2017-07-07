@@ -15,6 +15,6 @@ The `Writer` classes utilize the Tranquility Kafka API to communicate with Druid
 nodes and allows writing.
 
 ## Errors
-**Client Error:** Indicates a failure within the JRuby-Druid adapter.  
+**Client Error:** Indicates a failure within the Ruby-Druid adapter.  
 **Connection Error:** Indicates a failed request to Druid.  
 **QueryError:** Indicates a malformed query.

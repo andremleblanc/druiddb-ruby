@@ -10,13 +10,8 @@ module Druid
     end
 
     def write_point(datasource, datapoint)
-      begin
-        raise Druid::ConnectionError, 'no kafka brokers available' if producer.nil?
-        producer.send_msg(datasource, nil, datapoint)
-      rescue Java::KafkaCommon::FailedToSendMessageException => e
-        init_producer #TODO: This may not be the best way to handle it
-        producer.send_msg(datasource, nil, datapoint)
-      end
+      raise Druid::ConnectionError, 'no kafka brokers available' if producer.nil?
+      producer.produce(datapoint, topic: datasource)
     end
 
     private
@@ -27,18 +22,25 @@ module Druid
 
     def handle_kafka_state_change(service)
       if service == config.kafka_broker_path
+        producer.shutdown
         init_producer
       end
     end
 
     def init_producer
-      producer_options = {:broker_list => broker_list, "serializer.class" => "kafka.serializer.StringEncoder"}
-      if producer_options[:broker_list].present?
-        producer = Kafka::Producer.new(producer_options)
-        producer.connect()
+      producer_options = {
+        seed_brokers: broker_list,
+        client_id: "ruby-druid"
+      }
+
+      if broker_list.present?
+        kafka = Kafka.new(producer_options)
+        producer = kafka.async_producer(delivery_threshold: 100, delivery_interval: 10)
+        producer.deliver_messages
       else
         producer = nil
       end
+
       @producer = producer
     end
   end
