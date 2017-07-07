@@ -1,3 +1,3 @@
-module JrubyDruid
-	VERSION = '2.0.0.edge.1'
+module RubyDruid
+	VERSION = '1.0.0'
 end
