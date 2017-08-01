@@ -1,21 +1,21 @@
-require "active_support/all"
-require "ruby-kafka"
-require "json"
-require "zk"
+require 'active_support/all'
+require 'ruby-kafka'
+require 'json'
+require 'zk'
 
-require "druid/configuration"
-require "druid/connection"
-require "druid/errors"
-require "druid/query"
-require "druid/version"
-require "druid/zk"
+require 'druiddb/configuration'
+require 'druiddb/connection'
+require 'druiddb/errors'
+require 'druiddb/query'
+require 'druiddb/version'
+require 'druiddb/zk'
 
-require "druid/node/broker"
-require "druid/node/coordinator"
-require "druid/node/overlord"
+require 'druiddb/node/broker'
+require 'druiddb/node/coordinator'
+require 'druiddb/node/overlord'
 
-require "druid/queries/core"
-require "druid/queries/task"
+require 'druiddb/queries/core'
+require 'druiddb/queries/task'
 
-require "druid/writer"
-require "druid/client"
+require 'druiddb/writer'
+require 'druiddb/client'

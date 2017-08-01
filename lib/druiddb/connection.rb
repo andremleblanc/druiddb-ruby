@@ -1,7 +1,7 @@
 # Based on: http://danknox.github.io/2013/01/27/using-rubys-native-nethttp-library/
 require 'net/http'
 
-module Druid
+module DruidDB
   class Connection
     CONTENT_TYPE = 'application/json'.freeze
     VERB_MAP = {

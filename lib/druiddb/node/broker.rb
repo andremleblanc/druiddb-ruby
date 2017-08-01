@@ -1,4 +1,4 @@
-module Druid
+module DruidDB
   module Node
     class Broker
       QUERY_PATH = '/druid/v2'.freeze

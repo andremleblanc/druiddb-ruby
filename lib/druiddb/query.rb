@@ -1,4 +1,4 @@
-module Druid
+module DruidDB
   class Query
     attr_reader :aggregations,
                 :broker,

@@ -1,4 +1,4 @@
-module Druid
+module DruidDB
   class Client
     include Druid::Queries::Core
     include Druid::Queries::Task

@@ -1,4 +1,4 @@
-module Druid
+module DruidDB
   module Node
     class Coordinator
       DATASOURCES_PATH = '/druid/coordinator/v1/datasources/'.freeze

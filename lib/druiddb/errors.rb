@@ -1,4 +1,4 @@
-module Druid
+module DruidDB
   class Error < StandardError; end
   class ClientError < Error; end
   class ConnectionError < Error; end

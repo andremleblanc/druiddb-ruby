@@ -1,4 +1,4 @@
-module Druid
+module DruidDB
   module Queries
     module Core
       delegate :write_point, to: :writer

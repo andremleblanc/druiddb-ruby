@@ -1,17 +1,19 @@
-module Druid
+module DruidDB
   class Configuration
+    CLIENT_ID = 'druiddb-ruby'.freeze
     DISCOVERY_PATH = '/druid/discovery'.freeze
     INDEX_SERVICE = 'druid/overlord'.freeze
     KAFKA_BROKER_PATH = '/brokers/ids'.freeze
     LOG_LEVEL = :error
     ROLLUP_GRANULARITY = :minute
-    STRONG_DELETE = false # Not recommend to be true for production.
+    STRONG_DELETE = false
     TUNING_GRANULARITY = :day
     TUNING_WINDOW = 'PT1H'.freeze
-    WAIT_TIME = 20 # Seconds
+    WAIT_TIME = 20
     ZOOKEEPER = 'localhost:2181'.freeze
 
-    attr_reader :discovery_path,
+    attr_reader :client_id,
+                :discovery_path,
                 :index_service,
                 :kafka_broker_path,
                 :log_level,
@@ -22,8 +24,8 @@ module Druid
                 :wait_time,
                 :zookeeper
 
-
     def initialize(opts = {})
+      @client_id = opts[:client_id] || CLIENT_ID
       @discovery_path = opts[:discovery_path] || DISCOVERY_PATH
       @index_service = opts[:index_service] || INDEX_SERVICE
       @kafka_broker_path = opts[:kafka_broker_path] || KAFKA_BROKER_PATH

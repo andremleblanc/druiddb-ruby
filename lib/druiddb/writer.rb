@@ -1,5 +1,5 @@
 #TODO: Seems to be a delay after shutting down Kafka and ZK updating
-module Druid
+module DruidDB
   class Writer
     attr_reader :config, :producer, :zk
     def initialize(config, zk)
@@ -30,7 +30,7 @@ module Druid
     def init_producer
       producer_options = {
         seed_brokers: broker_list,
-        client_id: "ruby-druid"
+        client_id: config.client_id
       }
 
       if broker_list.present?

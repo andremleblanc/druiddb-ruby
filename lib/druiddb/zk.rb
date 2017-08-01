@@ -1,4 +1,4 @@
-module Druid
+module DruidDB
   class ZK
     attr_accessor :registry
     attr_reader :client, :config, :listeners

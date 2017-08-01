@@ -1,4 +1,4 @@
-module Druid
+module DruidDB
   module Node
     class Overlord
       INDEXER_PATH = '/druid/indexer/v1/'.freeze
