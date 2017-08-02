@@ -3,7 +3,8 @@ module DruidDB
     class Overlord
       INDEXER_PATH = '/druid/indexer/v1/'.freeze
       RUNNING_TASKS_PATH = (INDEXER_PATH + 'runningTasks').freeze
-      TASK_PATH = INDEXER_PATH + 'task/'
+      TASK_PATH = (INDEXER_PATH + 'task/').freeze
+      SUPERVISOR_PATH = (INDEXER_PATH + 'supervisor/').freeze
 
       attr_reader :config, :zk
       def initialize(config, zk)
@@ -14,9 +15,9 @@ module DruidDB
       #TODO: DRY: copy/paste
       def connection
         overlord = zk.registry["#{config.discovery_path}/druid:overlord"].first
-        raise Druid::ConnectionError, 'no druid overlords available' if overlord.nil?
+        raise DruidDB::ConnectionError, 'no druid overlords available' if overlord.nil?
         zk.registry["#{config.discovery_path}/druid:overlord"].rotate! # round-robin load balancing
-        Druid::Connection.new(host: overlord[:host], port: overlord[:port])
+        DruidDB::Connection.new(host: overlord[:host], port: overlord[:port])
       end
 
       def running_tasks(datasource_name = nil)
@@ -36,6 +37,19 @@ module DruidDB
       def shutdown_tasks(datasource_name = nil)
         tasks = running_tasks(datasource_name)
         tasks.each{|task| shutdown_task(task)}
+      end
+
+      def supervisor_tasks
+        response = connection.get(SUPERVISOR_PATH)
+        raise ConnectionError, 'Could not retrieve supervisors' unless response.code.to_i == 200
+        JSON.parse(response.body)
+      end
+
+      def submit_supervisor_spec(filepath)
+        spec = JSON.parse(File.read(filepath))
+        response = connection.post(SUPERVISOR_PATH, spec)
+        raise ConnectionError, 'Unable to submit spec' unless response.code.to_i == 200
+        JSON.parse(response.body)
       end
 
       private

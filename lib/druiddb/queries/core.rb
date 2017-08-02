@@ -4,7 +4,7 @@ module DruidDB
       delegate :write_point, to: :writer
 
       def query(opts)
-        Druid::Query.create(opts.merge(broker: broker))
+        DruidDB::Query.create(opts.merge(broker: broker))
       end
     end
   end

@@ -57,7 +57,7 @@ module DruidDB
       when 'year'
         time.advance(years: 1)
       else
-        raise Druid::QueryError, 'Unsupported granularity'
+        raise DruidDB::QueryError, 'Unsupported granularity'
       end
     end
 

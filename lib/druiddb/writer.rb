@@ -1,4 +1,3 @@
-#TODO: Seems to be a delay after shutting down Kafka and ZK updating
 module DruidDB
   class Writer
     attr_reader :config, :producer, :zk
@@ -10,8 +9,8 @@ module DruidDB
     end
 
     def write_point(datasource, datapoint)
-      raise Druid::ConnectionError, 'no kafka brokers available' if producer.nil?
-      producer.produce(datapoint, topic: datasource)
+      raise DruidDB::ConnectionError, 'no kafka brokers available' if producer.nil?
+      producer.produce(datapoint.to_json, topic: datasource)
     end
 
     private

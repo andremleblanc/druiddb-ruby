@@ -12,9 +12,9 @@ module DruidDB
       # TODO: DRY; copy/paste from broker
       def connection
         coordinator = zk.registry["#{config.discovery_path}/druid:coordinator"].first
-        raise Druid::ConnectionError, 'no druid coordinators available' if coordinator.nil?
+        raise DruidDB::ConnectionError, 'no druid coordinators available' if coordinator.nil?
         zk.registry["#{config.discovery_path}/druid:coordinator"].rotate! # round-robin load balancing
-        Druid::Connection.new(host: coordinator[:host], port: coordinator[:port])
+        DruidDB::Connection.new(host: coordinator[:host], port: coordinator[:port])
       end
 
       def datasource_info(datasource_name)

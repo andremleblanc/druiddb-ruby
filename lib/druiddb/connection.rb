@@ -60,7 +60,7 @@ module DruidDB
       request.content_type = CONTENT_TYPE
       begin
         response = http.request(request)
-      rescue Timeout::Error, *Druid::NET_HTTP_EXCEPTIONS => e
+      rescue Timeout::Error, *DruidDB::NET_HTTP_EXCEPTIONS => e
         raise ConnectionError, e.message
       end
 
