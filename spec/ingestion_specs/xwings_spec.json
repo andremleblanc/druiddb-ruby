@@ -1,0 +1,45 @@
+{
+  "type": "kafka",
+  "dataSchema": {
+    "dataSource": "xwings",
+    "parser": {
+      "type": "string",
+      "parseSpec": {
+        "format": "json",
+        "timestampSpec": {
+          "column": "timestamp",
+          "format": "auto"
+        },
+        "dimensionsSpec": {
+          "dimensions": ["manufacturer"]
+        }
+      }
+    },
+    "metricsSpec": [
+      {
+        "name": "units",
+        "fieldName": "units",
+        "type": "longSum"
+      }
+    ],
+    "granularitySpec": {
+      "type": "uniform",
+      "segmentGranularity": "HOUR",
+      "queryGranularity": "NONE"
+    }
+  },
+  "tuningConfig": {
+    "type": "kafka",
+    "maxRowsPerSegment": 5000000,
+    "reportParseExceptions": true
+  },
+  "ioConfig": {
+    "topic": "xwings",
+    "consumerProperties": {
+      "bootstrap.servers": "kafka:9092"
+    },
+    "taskCount": 1,
+    "replicas": 1,
+    "taskDuration": "PT1H"
+  }
+}

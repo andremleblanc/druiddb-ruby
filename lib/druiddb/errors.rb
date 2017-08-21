@@ -18,5 +18,5 @@ module DruidDB
     Net::HTTPHeaderSyntaxError,
     Net::ProtocolError,
     SocketError
-  ]
+  ].freeze
 end
