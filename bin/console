@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
-require "irb"
-require "druiddb"
+require 'bundler/setup'
+require 'irb'
+require 'druiddb'
 
 IRB.start

@@ -1,9 +1,15 @@
+# TODO:
+- Update write (no nesting)
+- Shout to Metabase
+- Testing
+  - Run docker
+  - curl
 # druiddb-ruby
 
 This documentation is intended to be a quick-start guide, not a comprehensive
 list of all available methods and configuration options. Please look through
 the source for more information; a great place to get started is `DruidDB::Client`
-and the `Druid::Query` modules as they expose most of the methods on the client.
+and the `DruidDB::Query` modules as they expose most of the methods on the client.
 
 This guide assumes a significant knowledge of Druid, for more info:
 http://druid.io/docs/latest/design/index.html
@@ -19,10 +25,10 @@ $ gem install druiddb
 ### Creating a Client
 ```
 # With default configuration:
-client = Druid::Client.new
+client = DruidDB::Client.new
 ```
 *Note:* There are many configuration options, please take a look at
-`Druid::Configuration` for more details.
+`DruidDB::Configuration` for more details.
 
 ## Writing Data
 
@@ -91,6 +97,13 @@ client.query(
   fill_value: 0
 )
 ```
+
+## Development
+Useful Docker commands:
+`JMX_PORT=9999 kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic xwings --from-beginning`  
+`docker exec -it -e JMX_PORT=9999 druiddbruby_kafka_1 kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic xwings --from-beginning`
+
+`curl -X POST -H 'Content-Type: application/json' -d @spec/ingestion_specs/xwings_spec.json http://localhost:8090/druid/indexer/v1/supervisor`
 
 ## Testing
 

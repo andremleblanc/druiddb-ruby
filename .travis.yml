@@ -1,0 +1,15 @@
+language: ruby
+sudo: required
+
+services:
+  - docker
+
+before_script:
+  - docker-compose up -d
+  - docker build -t druiddb-ruby .
+
+script:
+  - docker run -it --network=druiddbruby_druiddb druiddb-ruby bin/run_tests.sh
+
+after_script:
+  - docker-compose down
