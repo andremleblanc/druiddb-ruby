@@ -13,7 +13,7 @@ module DruidDB
                 :start_interval
 
     def initialize(opts)
-      @aggregations = opts[:aggregations].map{|agg| agg[:name]}
+      @aggregations = opts[:aggregations].map { |agg| agg[:name] }
       @broker = opts[:broker]
       @dimensions = opts[:dimensions]
       @fill_value = opts[:fill_value]
@@ -74,9 +74,8 @@ module DruidDB
       interval = start_interval
       result = []
 
-      while interval <= end_interval do
-        # TODO:
-        # This will search the points every time, could be more performant if
+      while interval <= end_interval
+        # TODO: This will search the points every time, could be more performant if
         # we track the 'current point' in the points and only compare the
         # current point's timestamp
         point = find_or_create_point(interval, points)
@@ -99,13 +98,13 @@ module DruidDB
       return query_result unless query_result.present? && fill_value.present?
       parse_result_key(query_result.first)
 
-      #TODO: handle multi-dimensional group by
+      # TODO: handle multi-dimensional group by
       if group_by?
         result = []
         dimension_key = dimensions.first
-        groups = query_result.group_by{ |point| point[result_key][dimension_key] }
+        groups = query_result.group_by { |point| point[result_key][dimension_key] }
         groups.each do |dimension_value, dimension_points|
-          result += fill_empty_intervals(dimension_points, { dimension_key => dimension_value })
+          result += fill_empty_intervals(dimension_points, dimension_key => dimension_value)
         end
         result
       else
@@ -114,7 +113,7 @@ module DruidDB
     end
 
     def find_or_create_point(interval, points)
-      point = points.find{ |point| point['timestamp'].to_s.to_time == interval.to_time }
+      point = points.find { |p| p['timestamp'].to_s.to_time == interval.to_time }
       point.present? ? point : { 'timestamp' => interval.iso8601(3), result_key => {} }
     end
 
@@ -151,10 +150,10 @@ module DruidDB
       when 'minute'
         time.beginning_of_minute
       when 'fifteen_minute'
-        first_fifteen = [45, 30, 15, 0].detect{ |m| m <= time.min }
+        first_fifteen = [45, 30, 15, 0].detect { |m| m <= time.min }
         time.change(min: first_fifteen)
       when 'thirty_minute'
-        first_thirty = [30, 0].detect{ |m| m <= time.min }
+        first_thirty = [30, 0].detect { |m| m <= time.min }
         time.change(min: first_thirty)
       when 'hour'
         time.beginning_of_hour

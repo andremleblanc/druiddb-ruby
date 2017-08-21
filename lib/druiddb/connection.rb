@@ -5,18 +5,19 @@ module DruidDB
   class Connection
     CONTENT_TYPE = 'application/json'.freeze
     VERB_MAP = {
-      :get    => ::Net::HTTP::Get,
-      :post   => ::Net::HTTP::Post,
-      :put    => ::Net::HTTP::Put,
-      :delete => ::Net::HTTP::Delete
-    }
+      get: ::Net::HTTP::Get,
+      post: ::Net::HTTP::Post,
+      put: ::Net::HTTP::Put,
+      delete: ::Net::HTTP::Delete
+    }.freeze
 
     attr_reader :http
 
     def initialize(endpoint)
       if endpoint.is_a? String
         uri = URI.parse(endpoint)
-        host, port = uri.host, uri.port
+        host = uri.host
+        port = uri.port
       else
         host, port = endpoint.values_at(:host, :port)
       end
@@ -44,7 +45,7 @@ module DruidDB
 
     def encode_path_params(path, params)
       encoded = URI.encode_www_form(params)
-      [path, encoded].join("?")
+      [path, encoded].join('?')
     end
 
     def request(method, path, params)

@@ -25,7 +25,7 @@ module DruidDB
       register_service("#{config.discovery_path}/druid:broker")
       register_service("#{config.discovery_path}/druid:coordinator")
       register_service("#{config.discovery_path}/druid:overlord")
-      register_service("#{config.kafka_broker_path}")
+      register_service(config.kafka_broker_path.to_s)
     end
 
     def register_service(service)

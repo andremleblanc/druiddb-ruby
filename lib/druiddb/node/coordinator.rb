@@ -13,13 +13,16 @@ module DruidDB
       def connection
         coordinator = zk.registry["#{config.discovery_path}/druid:coordinator"].first
         raise DruidDB::ConnectionError, 'no druid coordinators available' if coordinator.nil?
-        zk.registry["#{config.discovery_path}/druid:coordinator"].rotate! # round-robin load balancing
+        # round-robin load balancing
+        zk.registry["#{config.discovery_path}/druid:coordinator"].rotate!
         DruidDB::Connection.new(host: coordinator[:host], port: coordinator[:port])
       end
 
       def datasource_info(datasource_name)
         response = connection.get(DATASOURCES_PATH + datasource_name.to_s, full: true)
-        raise ConnectionError, 'Unable to retrieve datasource information.' unless response.code.to_i == 200
+        unless response.code.to_i == 200
+          raise ConnectionError, 'Unable to retrieve datasource information.'
+        end
         JSON.parse(response.body)
       end
 
@@ -53,7 +56,7 @@ module DruidDB
       # TODO: This should either be private or moved to datasource
       def disable_segments(datasource_name)
         segments = list_segments(datasource_name)
-        segments.each{ |segment| disable_segment(datasource_name, segment) }
+        segments.each { |segment| disable_segment(datasource_name, segment) }
       end
 
       def issue_kill_task(datasource_name, interval)
@@ -71,7 +74,7 @@ module DruidDB
         response = connection.get(DATASOURCES_PATH + datasource_name + '/segments', full: true)
         case response.code.to_i
         when 200
-          JSON.parse(response.body).map{ |segment| segment['identifier'] }
+          JSON.parse(response.body).map { |segment| segment['identifier'] }
         when 204
           []
         else
@@ -86,7 +89,7 @@ module DruidDB
         attempts = 0
         max = 10
 
-        while(condition) do
+        while condition
           attempts += 1
           sleep 1
           condition = datasource_enabled?(datasource_name)
@@ -102,7 +105,7 @@ module DruidDB
         attempts = 0
         max = 60
 
-        while(condition) do
+        while condition
           attempts += 1
           sleep 1
           condition = datasource_has_segments?(datasource_name)

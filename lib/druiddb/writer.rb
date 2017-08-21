@@ -16,21 +16,21 @@ module DruidDB
     private
 
     def broker_list
-      zk.registry["/brokers/ids"].map{|instance| "#{instance[:host]}:#{instance[:port]}" }.join(',')
+      zk.registry['/brokers/ids'].map { |instance| broker_name(instance) }.join(',')
+    end
+
+    def broker_name(instance)
+      "#{instance[:host]}:#{instance[:port]}"
     end
 
     def handle_kafka_state_change(service)
-      if service == config.kafka_broker_path
-        producer.shutdown
-        init_producer
-      end
+      return unless service == config.kafka_broker_path
+      producer.shutdown
+      init_producer
     end
 
     def init_producer
-      producer_options = {
-        seed_brokers: broker_list,
-        client_id: config.client_id
-      }
+      producer_options = { seed_brokers: broker_list, client_id: config.client_id }
 
       if broker_list.present?
         kafka = Kafka.new(producer_options)

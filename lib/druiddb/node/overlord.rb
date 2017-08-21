@@ -12,7 +12,7 @@ module DruidDB
         @zk = zk
       end
 
-      #TODO: DRY: copy/paste
+      # TODO: DRY: copy/paste
       def connection
         overlord = zk.registry["#{config.discovery_path}/druid:overlord"].first
         raise DruidDB::ConnectionError, 'no druid overlords available' if overlord.nil?
@@ -23,8 +23,8 @@ module DruidDB
       def running_tasks(datasource_name = nil)
         response = connection.get(RUNNING_TASKS_PATH)
         raise ConnectionError, 'Could not retrieve running tasks' unless response.code.to_i == 200
-        tasks = JSON.parse(response.body).map{|task| task['id']}
-        tasks.select!{ |task| task.include? datasource_name } if datasource_name
+        tasks = JSON.parse(response.body).map { |task| task['id'] }
+        tasks.select! { |task| task.include? datasource_name } if datasource_name
         tasks ? tasks : []
       end
 
@@ -36,7 +36,7 @@ module DruidDB
 
       def shutdown_tasks(datasource_name = nil)
         tasks = running_tasks(datasource_name)
-        tasks.each{|task| shutdown_task(task)}
+        tasks.each { |task| shutdown_task(task) }
       end
 
       def supervisor_tasks
@@ -59,7 +59,7 @@ module DruidDB
         attempts = 0
         max = 10
 
-        until(condition) do
+        until condition
           attempts += 1
           sleep 1
           condition = !(running_tasks.include? task)
