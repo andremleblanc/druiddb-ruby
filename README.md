@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/andremleblanc/druiddb-ruby.svg?branch=master)](https://travis-ci.org/andremleblanc/druiddb-ruby)
 [![Gem Version](https://badge.fury.io/rb/druiddb.svg)](https://badge.fury.io/rb/druiddb)
 [![Code Climate](https://codeclimate.com/github/andremleblanc/druiddb-ruby/badges/gpa.svg)](https://codeclimate.com/github/andremleblanc/druiddb-ruby)
-[![Test Coverage](https://codeclimate.com/github/andremleblanc/druiddb-ruby/badges/coverage.svg)](https://codeclimate.com/github/andremleblanc/druiddb-ruby/coverage)
 [![Dependency Status](https://gemnasium.com/badges/github.com/andremleblanc/druiddb-ruby.svg)](https://gemnasium.com/github.com/andremleblanc/druiddb-ruby)
 
 This documentation is intended to be a quick-start guide, not a comprehensive

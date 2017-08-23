@@ -1,9 +1,6 @@
 language: ruby
 sudo: required
 
-env:
-  - CODECLIMATE_REPO_TOKEN: 6fc6ca937d461ef40fe2c3f92cfa3c57a7bd5b5cefd15f8f1ea5407d966cd4dd
-
 services:
   - docker
 
