@@ -9,18 +9,18 @@ module DruidDB
         @zk = zk
       end
 
-      #TODO: Would caching connections be beneficial?
       def connection
         broker = zk.registry["#{config.discovery_path}/druid:broker"].first
-        raise Druid::ConnectionError, 'no druid brokers available' if broker.nil?
+        raise DruidDB::ConnectionError, 'no druid brokers available' if broker.nil?
         zk.registry["#{config.discovery_path}/druid:broker"].rotate! # round-robin load balancing
-        Druid::Connection.new(host: broker[:host], port: broker[:port])
+        DruidDB::Connection.new(host: broker[:host], port: broker[:port])
       end
 
       def query(query_object)
         begin
           response = connection.post(QUERY_PATH, query_object)
-        rescue Druid::ConnectionError => e
+        rescue DruidDB::ConnectionError
+          # TODO: Log
           # TODO: This sucks, make it better
           (zk.registry["#{config.discovery_path}/druid:broker"].size - 1).times do
             response = connection.post(QUERY_PATH, query_object)

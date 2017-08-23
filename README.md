@@ -1,101 +1,129 @@
 # druiddb-ruby
 
+[![Build Status](https://travis-ci.org/andremleblanc/druiddb-ruby.svg?branch=master)](https://travis-ci.org/andremleblanc/druiddb-ruby)
+[![Gem Version](https://badge.fury.io/rb/druiddb.svg)](https://badge.fury.io/rb/druiddb)
+[![Code Climate](https://codeclimate.com/github/andremleblanc/druiddb-ruby/badges/gpa.svg)](https://codeclimate.com/github/andremleblanc/druiddb-ruby)
+[![Test Coverage](https://codeclimate.com/github/andremleblanc/druiddb-ruby/badges/coverage.svg)](https://codeclimate.com/github/andremleblanc/druiddb-ruby/coverage)
+[![Dependency Status](https://gemnasium.com/badges/github.com/andremleblanc/druiddb-ruby.svg)](https://gemnasium.com/github.com/andremleblanc/druiddb-ruby)
+
 This documentation is intended to be a quick-start guide, not a comprehensive
 list of all available methods and configuration options. Please look through
 the source for more information; a great place to get started is `DruidDB::Client`
-and the `Druid::Query` modules as they expose most of the methods on the client.
+and the `DruidDB::Query` modules as they expose most of the methods on the client.
 
 This guide assumes a significant knowledge of Druid, for more info:
 http://druid.io/docs/latest/design/index.html
 
 ## Install
 
-```
+```bash
 $ gem install druiddb
 ```
 
 ## Usage
 
 ### Creating a Client
-```
-# With default configuration:
-client = Druid::Client.new
+```ruby
+client = DruidDB::Client.new()
 ```
 *Note:* There are many configuration options, please take a look at
-`Druid::Configuration` for more details.
+`DruidDB::Configuration` for more details.
 
-## Writing Data
+### Writing Data
 
-Write a datapoint:
+#### Kafka Indexing service
+This gem leverages the [Kafka Indexing Service](http://druid.io/docs/latest/development/extensions-core/kafka-ingestion.html) for ingesting data. The gem pushes datapoints onto Kafka topics (typically named after the datasource). You can also use the gem to upload an ingestion spec, which is needed for Druid to consume the Kafka topic.
+
+This repo contains a `docker-compose.yml` build that may help bootstrap development with Druid and the Kafka Indexing Service. It's what we use for integration testing.
+
+#### Submitting an Ingestion Spec
+
+```ruby
+path = 'path/to/spec.json'
+client.submit_supervisor_spec(path)
 ```
-datasource_name = 'foo'
+
+####  Writing Datapoints
+```ruby
+topic_name = 'foo'
 datapoint = {
-  timestamp: Time.now.utc, # Optional: Defaults to Time.now.utc
-  dimensions: { foo: 'bar' }, # Arbitrary key-value tags
-  metrics: { baz: 1 } # The values being measured
+  timestamp: Time.now.utc.iso8601,
+  foo: 'bar',
+  units: 1
 }
-client.write_point(datasource_name, datapoint)
+client.write_point(topic_name, datapoint)
 ```
-*Note:* The `write_point` utilizes the
-[Tranquility Core API](https://github.com/druid-io/tranquility/blob/master/docs/core.md)
-to communicate with Druid. The Tranquility API handles a lot of concerns like
-buffering, service discovery, schema rollover etc. The main features of
-the `write_point` method are 1) creation of the data schema and 2) detecting
-schema change to support automatic schema evolution.
 
-Basically, when you write a point with the `write_point` method, it will compare
-the point with the current schema (if present) and create a new Tranquilizer
-(connection to Druid) with the new schema if needed. This all happens
-seamlessly without your application needing to know anything about schema.
+### Reading Data
 
-The expectation is the schema changes infrequently and subsequent writes after
-a schema change have the same schema.
-
-## Reading Data
-
-Querying:
-```
-start_time = Time.now.utc.advance(days: -30)
-
+#### Querying
+```ruby
 client.query(
   queryType: 'timeseries',
   dataSource: 'foo',
   granularity: 'day',
-  intervals: start_time.iso8601 + '/' + Time.now.utc.iso8601,
+  intervals: Time.now.utc.advance(days: -30) + '/' + Time.now.utc.iso8601,
   aggregations: [{ type: 'longSum', name: 'baz', fieldName: 'baz' }]
 )
 ```
-*Note:* The `query` method just POSTs the query to Druid; for information on
+The `query` method POSTs the query to Druid; for information on
 querying Druid: http://druid.io/docs/latest/querying/querying.html. This is
 intentionally simple to allow all current features and hopefully all future
 features of the Druid query language without updating the gem.
 
-Fill Empty Intervals:
+##### Fill Empty Intervals
 
 Currently, Druid will not fill empty intervals for which there are no points. To
 accommodate this need until it is handled more efficiently in Druid, use the
-experimental `fill_value` feature in your query. This ensure you get an result
+experimental `fill_value` feature in your query. This ensure you get a result
 for every interval in intervals.
 
 This has only been tested with 'timeseries' and single-dimension 'groupBy'
 queries with simple granularities.
-```
-start_time = Time.now.utc.advance(days: -30)
 
+```ruby
 client.query(
   queryType: 'timeseries',
   dataSource: 'foo',
   granularity: 'day',
-  intervals: start_time.iso8601 + '/' + Time.now.utc.iso8601,
+  intervals: Time.now.utc.advance(days: -30) + '/' + Time.now.utc.iso8601,
   aggregations: [{ type: 'longSum', name: 'baz', fieldName: 'baz' }],
   fill_value: 0
 )
 ```
 
+### Management
+List datasources.
+```ruby
+client.list_datasources
+```
+
+List supervisor tasks.
+```ruby
+client.supervisor_tasks
+```
+
+## Development
+
+### Docker Compose
+This project uses docker-compose to provide a development environment.
+
+1. git clone the project
+2. cd into project
+3. `docker-compose up` - this will download necessary images and run all dependencies in the foreground.
+
+Then you can use `docker build -t some_tag .` to build the Docker image for this project after making changes and `docker run -it --network=druiddbruby_druiddb some_tag some_command` to interact with it.
+
+### Metabase
+
+Viewing data in the database can be a bit annoying, use a tool like [Metabase](https://github.com/metabase/metabase) makes this much easier and is what I personally do when developing.
+
 ## Testing
 
-The tests in `/spec/druid` can be run without Druid running. The tests in
-`/spec/integration` require Druid to be running.
+Testing is run utilizing the docker-compose environment.
+
+1. `docker-compose up`
+2. `docker run -it --network=druiddbruby_druiddb druiddb-ruby bin/run_tests.sh`
 
 ## License
 

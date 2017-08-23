@@ -1,7 +1,8 @@
 module DruidDB
   class Client
-    include Druid::Queries::Core
-    include Druid::Queries::Task
+    include DruidDB::Queries::Core
+    include DruidDB::Queries::Datasources
+    include DruidDB::Queries::Task
 
     attr_reader :broker,
                 :config,
@@ -11,12 +12,12 @@ module DruidDB
                 :zk
 
     def initialize(options = {})
-      @config = Druid::Configuration.new(options)
-      @zk = Druid::ZK.new(config)
-      @broker = Druid::Node::Broker.new(config, zk)
-      @coordinator = Druid::Node::Coordinator.new(config, zk)
-      @overlord = Druid::Node::Overlord.new(config, zk)
-      @writer = Druid::Writer.new(config, zk)
+      @config = DruidDB::Configuration.new(options)
+      @zk = DruidDB::ZK.new(config)
+      @broker = DruidDB::Node::Broker.new(config, zk)
+      @coordinator = DruidDB::Node::Coordinator.new(config, zk)
+      @overlord = DruidDB::Node::Overlord.new(config, zk)
+      @writer = DruidDB::Writer.new(config, zk)
     end
   end
 end

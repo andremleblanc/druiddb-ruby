@@ -15,6 +15,7 @@ require 'druiddb/node/coordinator'
 require 'druiddb/node/overlord'
 
 require 'druiddb/queries/core'
+require 'druiddb/queries/datasources'
 require 'druiddb/queries/task'
 
 require 'druiddb/writer'
