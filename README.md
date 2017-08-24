@@ -30,7 +30,7 @@ client = DruidDB::Client.new()
 
 ### Writing Data
 
-#### Kafka Indexing service
+#### Kafka Indexing Service
 This gem leverages the [Kafka Indexing Service](http://druid.io/docs/latest/development/extensions-core/kafka-ingestion.html) for ingesting data. The gem pushes datapoints onto Kafka topics (typically named after the datasource). You can also use the gem to upload an ingestion spec, which is needed for Druid to consume the Kafka topic.
 
 This repo contains a `docker-compose.yml` build that may help bootstrap development with Druid and the Kafka Indexing Service. It's what we use for integration testing.
