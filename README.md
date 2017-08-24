@@ -13,6 +13,10 @@ and the `DruidDB::Query` modules as they expose most of the methods on the clien
 This guide assumes a significant knowledge of Druid, for more info:
 http://druid.io/docs/latest/design/index.html
 
+## What Does it Do
+
+druiddb-ruby provides a client for your Ruby application to push data to Druid leveraging the [Kafka Indexing Service](http://druid.io/docs/latest/development/extensions-core/kafka-ingestion.html). The client also provides an interface for querying and performing management tasks. It will automatically find and connect to Kafka and the Druid nodes through ZooKeeper, which means you only need to provide the ZooKeeper host and it will find everything else.
+
 ## Install
 
 ```bash
