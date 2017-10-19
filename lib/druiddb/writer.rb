@@ -10,7 +10,12 @@ module DruidDB
 
     def write_point(datasource, datapoint)
       raise DruidDB::ConnectionError, 'no kafka brokers available' if producer.nil?
-      producer.produce(datapoint.to_json, topic: datasource)
+      begin
+        producer.produce(datapoint.to_json, topic: datasource)
+      rescue Kafka::BufferOverflow
+        sleep config.kafka_overflow_wait
+        retry
+      end
     end
 
     private

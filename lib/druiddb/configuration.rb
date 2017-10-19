@@ -4,6 +4,7 @@ module DruidDB
     DISCOVERY_PATH = '/druid/discovery'.freeze
     INDEX_SERVICE = 'druid/overlord'.freeze
     KAFKA_BROKER_PATH = '/brokers/ids'.freeze
+    KAFKA_OVERFLOW_WAIT = 0.05
     LOG_LEVEL = :error
     ROLLUP_GRANULARITY = :minute
     STRONG_DELETE = false
@@ -16,6 +17,7 @@ module DruidDB
                 :discovery_path,
                 :index_service,
                 :kafka_broker_path,
+                :kafka_overflow_wait,
                 :log_level,
                 :rollup_granularity,
                 :strong_delete,
@@ -29,6 +31,7 @@ module DruidDB
       @discovery_path = opts[:discovery_path] || DISCOVERY_PATH
       @index_service = opts[:index_service] || INDEX_SERVICE
       @kafka_broker_path = opts[:kafka_broker_path] || KAFKA_BROKER_PATH
+      @kafka_overflow_wait = opts[:kafka_overflow_wait] || KAFKA_OVERFLOW_WAIT
       @log_level = opts[:log_level] || LOG_LEVEL
       @rollup_granularity = rollup_granularity_string(opts[:rollup_granularity])
       @strong_delete = opts[:strong_delete] || STRONG_DELETE
