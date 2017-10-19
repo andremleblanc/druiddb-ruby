@@ -115,7 +115,20 @@ This project uses docker-compose to provide a development environment.
 2. cd into project
 3. `docker-compose up` - this will download necessary images and run all dependencies in the foreground.
 
-Then you can use `docker build -t some_tag .` to build the Docker image for this project after making changes and `docker run -it --network=druiddbruby_druiddb some_tag some_command` to interact with it.
+When changes are made to the project, rebuild the Docker image with:
+
+```shell
+$ docker build -t <some_tag> .
+```
+
+Where `<some_tag>` is something like `druiddb-ruby`.
+
+To interact with the newly changed project, run it with:
+
+```shell
+$ docker run -it --network=druiddbruby_druiddb <some_tag> <some_command>
+```
+Where `<some_command>` is a shell command that can be run on the docker image (i.e. `bash` or anything in the `bin` folder)
 
 ### Metabase
 
@@ -126,7 +139,7 @@ Viewing data in the database can be a bit annoying, use a tool like [Metabase](h
 Testing is run utilizing the docker-compose environment.
 
 1. `docker-compose up`
-2. `docker run -it --network=druiddbruby_druiddb druiddb-ruby bin/run_tests.sh`
+2. `docker run -it --network=druiddbruby_druiddb <some_tag> bin/run_tests.sh`
 
 ## License
 
