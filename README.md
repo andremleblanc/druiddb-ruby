@@ -115,7 +115,7 @@ This project uses docker-compose to provide a development environment.
 2. cd into project
 3. `docker-compose up` - this will download necessary images and run all dependencies in the foreground.
 
-Then you can use `docker build -t some_tag .` to build the Docker image for this project after making changes and `docker run -it --network=druiddbruby_druiddb some_tag some_command` to interact with it.
+Then you can use `docker build -t some_tag .` to build the Docker image for this project after making changes and `docker run -it --network=druiddbruby_druiddb druiddb-ruby some_command` to interact with it.
 
 ### Metabase
 
