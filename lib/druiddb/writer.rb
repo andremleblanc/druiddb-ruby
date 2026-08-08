@@ -10,6 +10,7 @@ module DruidDB
 
     def write_point(datasource, datapoint)
       raise DruidDB::ConnectionError, 'no kafka brokers available' if producer.nil?
+      datapoint[:timestamp] ||= Time.now.utc.iso8601
       begin
         producer.produce(datapoint.to_json, topic: datasource)
       rescue Kafka::BufferOverflow
